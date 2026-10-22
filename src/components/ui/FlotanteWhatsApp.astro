@@ -1,0 +1,29 @@
+---
+/**
+ * Botón flotante de WhatsApp para escritorio.
+ * En móvil manda la barra fija inferior, así que aquí se oculta.
+ */
+import Icono from '../ui/Icono.astro';
+import { construirCatalogo, urlInicial } from '../../lib/catalogo';
+import type { Producto } from '../../lib/tipos';
+
+interface Props {
+  producto: Producto;
+}
+
+const { producto } = Astro.props;
+const url = urlInicial(construirCatalogo(producto), 'flotante');
+---
+
+<a
+  href={url}
+  target="_blank"
+  rel="noopener noreferrer"
+  data-wa
+  data-origen="flotante"
+  aria-label={`Pedir por WhatsApp de ${producto.nombre}`}
+  class="boton boton-whatsapp fixed right-5 bottom-5 z-40 hidden min-h-14 items-center gap-2 px-5 py-3 text-sm lg:inline-flex"
+>
+  <Icono name="whatsapp" size={22} />
+  <span>Pedir por WhatsApp</span>
+</a>

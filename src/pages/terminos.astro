@@ -1,0 +1,76 @@
+---
+/**
+ * Términos y condiciones. Texto editable.
+ */
+import Legal from '../layouts/Legal.astro';
+import { tienda } from '../config/tienda';
+---
+
+<Legal
+  titulo="Términos y condiciones"
+  descripcion={`Condiciones de compra, pedidos por WhatsApp, pagos y entregas en ${tienda.nombreTienda}.`}
+  ruta="/terminos/"
+  actualizado="1 de enero de 2026"
+>
+  <h2>1. Quiénes somos</h2>
+  <p>
+    {tienda.legal.razonSocial}, NIT {tienda.legal.nit}, opera la tienda en línea
+    {tienda.sitio} y en WhatsApp al {tienda.whatsappDisplay}. Este documento regula la compra
+    de productos y el uso de este sitio web.
+  </p>
+
+  <h2>2. Cómo se hace un pedido</h2>
+  <p>
+    En {tienda.nombreTienda} no hay carrito ni checkout en la web. El pedido se cierra por
+    WhatsApp: tocas el botón del producto, el sistema escribe tu pedido con el modelo, el color,
+    el paquete y el total, y tú respondes confirmando la ciudad y la dirección de entrega. El
+    pedido queda confirmado cuando nuestro equipo responde con la disponibilidad del producto.
+  </p>
+
+  <h2>3. Precios y pagos</h2>
+  <ul>
+    <li>Los precios se expresan en pesos colombianos (COP) e incluyen impuestos.</li>
+    <li>Formas de pago: {tienda.metodosPago.join(', ')}.</li>
+    <li>En el método contra entrega pagas al transportador al recibir el pedido.</li>
+    <li>Los precios pueden cambiar sin previo aviso; el precio que vale es el que aparece en el momento de confirmar el pedido.</li>
+    <li>No solicitamos datos de tarjeta, claves ni contraseñas por WhatsApp.</li>
+  </ul>
+
+  <h2>4. Entregas</h2>
+  <p>
+    El tiempo estimado de entrega es de {tienda.tiempoEnvio} después de la confirmación del
+    pedido y del pago (cuando aplica). Los detalles de cobertura están en la
+    <a href="/envios/" class="enlace-fuerte">página de envíos</a>. Si el transportador no
+    encuentra tu dirección o no puedes recibir el pedido, este se reprograma sin costo.
+  </p>
+
+  <h2>5. Garantías y responsabilidad</h2>
+  <p>
+    Todos los productos cuentan con garantía comercial y garantía legal del consumidor, en los
+    términos descritos en la <a href="/devoluciones/" class="enlace-fuerte">página de devoluciones</a>.
+    {tienda.nombreTienda} no responde por daños causados por un uso indebido, por operar el
+    producto en condiciones no previstas ni por el desgaste normal del producto. Cuando un
+    defecto es imputable a nosotros, asumimos el reemplazo o el reembolso.
+  </p>
+
+  <h2>6. Uso del sitio y de las redes</h2>
+  <p>
+    El contenido de este sitio (textos, fotos, videos y marcas) es de {tienda.nombreTienda} y
+    está protegido por la ley. No está permitido reproducirlo con fines comerciales sin
+    autorización escrita.
+  </p>
+
+  <h2>7. Cambios y ley aplicable</h2>
+  <p>
+    Podemos modificar estos términos en cualquier momento. La versión vigente es la que está
+    publicada en esta página en el momento de tu compra. Estos términos se rigen por la ley
+    colombiana y se someten a la jurisdicción de los tribunales de Bogotá D.C.
+  </p>
+
+  <h2>8. Contacto</h2>
+  <p>
+    Para cualquier asunto relacionado con un pedido escríbenos por WhatsApp al
+    {tienda.whatsappDisplay} o al correo {tienda.legal.email}. Atendemos de
+    {tienda.horarioAtencion}.
+  </p>
+</Legal>

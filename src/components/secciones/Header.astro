@@ -1,0 +1,37 @@
+---
+/**
+ * Header mínimo: logo a la izquierda, WhatsApp a la derecha.
+ * Sin menú y sin enlaces de fuga: el único objetivo es el WhatsApp.
+ */
+import Icono from '../ui/Icono.astro';
+import { tienda, whatsappCompleto } from '../../config/tienda';
+
+const enlaceWhatsApp = `https://wa.me/${whatsappCompleto}?text=${encodeURIComponent(
+  `Hola ${tienda.nombreTienda}, quiero información sobre el producto.`,
+)}`;
+---
+
+<header class="sticky top-0 z-30 border-b-2 border-tinta bg-blanco">
+  <div class="contenedor flex h-14 items-center justify-between gap-3">
+    <a href="/" class="flex min-h-12 items-center gap-2">
+      <span class="font-titular text-lg leading-none tracking-tight md:text-xl">
+        Viral<span class="text-oferta-oscuro">y</span>Shop
+      </span>
+      <span class="insignia hidden bg-electrico text-tinta sm:inline-flex">Pulso</span>
+      <span class="sr-only">— Inicio</span>
+    </a>
+
+    <a
+      href={enlaceWhatsApp}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-wa
+      data-origen="header"
+      aria-label={`Escribir a ${tienda.nombreTienda} por WhatsApp`}
+      class="boton boton-whatsapp min-h-12 px-3 py-1.5 text-sm"
+    >
+      <Icono name="whatsapp" size={20} />
+      <span class="hidden sm:inline">WhatsApp</span>
+    </a>
+  </div>
+</header>

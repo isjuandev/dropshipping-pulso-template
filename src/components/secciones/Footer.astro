@@ -1,0 +1,109 @@
+---
+/**
+ * Footer con datos legales, enlaces a las páginas legales y redes.
+ * Razón social y NIT editables en src/config/tienda.ts.
+ */
+import Icono, { type NombreIcono } from '../ui/Icono.astro';
+import { tienda } from '../../config/tienda';
+
+const enlaces = [
+  { href: '/envios/', texto: 'Envíos y cobertura' },
+  { href: '/devoluciones/', texto: 'Devoluciones y garantía' },
+  { href: '/terminos/', texto: 'Términos y condiciones' },
+  { href: '/privacidad/', texto: 'Política de privacidad' },
+];
+
+const redes: { nombre: string; icono: NombreIcono; url: string; usuario: string }[] = [
+  { nombre: 'Instagram', icono: 'instagram', url: tienda.redes.instagram.url, usuario: tienda.redes.instagram.usuario },
+  { nombre: 'Facebook', icono: 'facebook', url: tienda.redes.facebook.url, usuario: tienda.redes.facebook.usuario },
+  { nombre: 'TikTok', icono: 'tiktok', url: tienda.redes.tiktok.url, usuario: tienda.redes.tiktok.usuario },
+];
+---
+
+<footer class="border-t-2 border-tinta bg-humo pt-10 pb-28 md:pb-10">
+  <div class="contenedor">
+    <div class="grid gap-8 md:grid-cols-[1.4fr_1fr_1fr] md:gap-6">
+      <div class="flex flex-col gap-3">
+        <p class="font-titular text-xl">
+          Viral<span class="text-oferta-oscuro">y</span>Shop
+        </p>
+        <p class="max-w-[40ch] text-[15px] text-tinta/70">
+          Un solo producto, el mejor del momento. Pagas contra entrega en toda Colombia.
+        </p>
+
+        <ul class="mt-1 flex flex-col gap-1.5 text-[15px] text-tinta/80">
+          <li class="flex min-h-12 items-center gap-2">
+            <Icono name="phone" size={16} aria-hidden="true" />
+            <a
+              href={`https://wa.me/${tienda.codigoPais}${tienda.whatsapp}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex min-h-12 items-center"
+            >
+              {tienda.whatsappDisplay}
+            </a>
+          </li>
+          <li class="flex min-h-12 items-center gap-2">
+            <Icono name="mail" size={16} aria-hidden="true" />
+            <a href={`mailto:${tienda.legal.email}`} class="inline-flex min-h-12 items-center">
+              {tienda.legal.email}
+            </a>
+          </li>
+          <li class="flex min-h-12 items-center gap-2">
+            <Icono name="map-pin" size={16} aria-hidden="true" />
+            <span>{tienda.legal.direccion}</span>
+          </li>
+        </ul>
+      </div>
+
+      <nav aria-label="Información legal">
+        <h2 class="mb-3 font-titular text-sm uppercase tracking-wide">Información legal</h2>
+        <ul class="flex flex-col gap-1.5 text-[15px]">
+          {
+            enlaces.map((enlace) => (
+              <li>
+                <a
+                  href={enlace.href}
+                  class="enlace-fuerte inline-flex min-h-12 items-center hover:text-oferta-oscuro"
+                >
+                  {enlace.texto}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div>
+        <h2 class="mb-3 font-titular text-sm uppercase tracking-wide">Síguenos</h2>
+        <ul class="flex flex-col gap-2">
+          {
+            redes.map((red) => (
+              <li>
+                <a
+                  href={red.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex min-h-12 items-center gap-2 text-[15px] hover:text-oferta-oscuro"
+                  aria-label={`${red.nombre} de ${tienda.nombreTienda}: ${red.usuario}`}
+                >
+                  <Icono name={red.icono} size={18} />
+                  <span>{red.usuario}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-8 flex flex-col gap-1 border-t-2 border-tinta/12 pt-5 text-[13px] text-tinta/65">
+      <p>
+        © {new Date().getFullYear()} {tienda.legal.razonSocial} · NIT {tienda.legal.nit} · Colombia
+      </p>
+      <p>
+        Precios en pesos colombianos (COP). Envío gratis y pago contra entrega en toda Colombia.
+      </p>
+    </div>
+  </div>
+</footer>

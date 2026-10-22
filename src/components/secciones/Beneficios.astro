@@ -1,0 +1,39 @@
+---
+/**
+ * Beneficios: grid 2x3 en móvil, 3x2 en desktop.
+ * Icono + título de 3 palabras + una línea de beneficio.
+ */
+import Icono, { type NombreIcono } from '../ui/Icono.astro';
+import type { Producto } from '../../lib/tipos';
+
+interface Props {
+  producto: Producto;
+}
+
+const { producto } = Astro.props;
+---
+
+<section id="beneficios" class="bg-humo py-14 md:py-20">
+  <div class="contenedor">
+    <header class="mb-8 max-w-2xl">
+      <p class="mb-2 font-titular text-xs uppercase tracking-[0.18em] text-oferta-oscuro md:text-sm">
+        Por qué te va a encantar
+      </p>
+      <h2>Todo lo que haces con ella, más fácil</h2>
+    </header>
+
+    <ul class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5">
+      {
+        producto.beneficios.map((beneficio) => (
+          <li class="tarjeta flex flex-col gap-2 p-4 md:p-5">
+            <span class="grid size-10 place-items-center rounded-[10px] border-2 border-tinta bg-electrico">
+              <Icono name={beneficio.icono as NombreIcono} size={20} />
+            </span>
+            <h3 class="text-[17px] leading-tight md:text-xl">{beneficio.titulo}</h3>
+            <p class="text-[14px] leading-snug text-tinta/75 md:text-base">{beneficio.texto}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

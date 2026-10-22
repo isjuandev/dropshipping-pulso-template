@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 64" width="320" height="64">
+  <rect width="64" height="64" rx="14" fill="#FFD60A" stroke="#0B0B0F" stroke-width="4"/>
+  <rect x="24" y="10" width="16" height="8" rx="4" fill="#0B0B0F"/>
+  <rect x="20" y="18" width="24" height="22" rx="6" fill="#FFFFFF" stroke="#0B0B0F" stroke-width="4"/>
+  <path d="M32 28l5 9H27z" fill="#0B0B0F"/>
+  <rect x="22" y="40" width="20" height="18" rx="6" fill="#5FE3B0" stroke="#0B0B0F" stroke-width="4"/>
+  <circle cx="32" cy="48" r="4" fill="#0B0B0F"/>
+  <text x="80" y="46" font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="bold" fill="#0B0B0F">Viral<tspan fill="#E5383B">y</tspan>Shop</text>
+</svg>

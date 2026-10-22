@@ -1,0 +1,39 @@
+---
+/**
+ * Selector de paquetes (isla PackSelector).
+ * El estado del paquete y del color vive en @preact/signals y se
+ * comparte con la barra fija y con todos los CTA de la página.
+ */
+import PackSelector from '../islas/PackSelector.tsx';
+import { construirCatalogo } from '../../lib/catalogo';
+import type { Producto } from '../../lib/tipos';
+
+interface Props {
+  producto: Producto;
+}
+
+const { producto } = Astro.props;
+const catalogo = construirCatalogo(producto);
+---
+
+<section id="paquetes" class="bg-blanco py-14 md:py-20">
+  <div class="contenedor">
+    <header class="mb-6 max-w-2xl">
+      <p class="mb-2 font-titular text-xs uppercase tracking-[0.18em] text-oferta-oscuro md:text-sm">
+        Elige tu paquete
+      </p>
+      <h2>¿Cuántas quieres?</h2>
+      <p class="mt-2 text-[15px] text-tinta/75 md:text-base">
+        Entre más unidades, menor el precio por unidad. Pagas cuando te llegue el pedido.
+      </p>
+    </header>
+
+    <PackSelector
+      client:visible
+      catalogo={catalogo}
+      vista="paquetes"
+      prefijo="paquetes"
+      origen="paquetes"
+    />
+  </div>
+</section>

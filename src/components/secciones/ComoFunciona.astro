@@ -1,0 +1,53 @@
+---
+/**
+ * Cómo funciona: 3 pasos numerados con imagen.
+ */
+import { Picture } from 'astro:assets';
+import type { Producto } from '../../lib/tipos';
+
+interface Props {
+  producto: Producto;
+}
+
+const { producto } = Astro.props;
+---
+
+<section id="como-funciona" class="bg-blanco py-14 md:py-20">
+  <div class="contenedor">
+    <header class="mb-8 max-w-2xl">
+      <p class="mb-2 font-titular text-xs uppercase tracking-[0.18em] text-oferta-oscuro md:text-sm">
+        Tan fácil como 1-2-3
+      </p>
+      <h2>Así usas tu {producto.nombre}</h2>
+    </header>
+
+    <ol class="grid gap-4 md:grid-cols-3 md:gap-5">
+      {
+        producto.pasos.map((paso, indice) => (
+          <li class="tarjeta flex flex-col overflow-hidden">
+            <div class="relative border-b-2 border-tinta bg-blanco">
+              <span class="absolute left-3 top-3 z-10 grid size-9 place-items-center rounded-[10px] border-2 border-tinta bg-oferta-oscuro font-titular text-blanco">
+                {indice + 1}
+              </span>
+              <Picture
+                src={paso.imagen}
+                formats={['avif', 'webp']}
+                  fallbackFormat="webp"
+                widths={[320, 480, 640]}
+                sizes="(max-width: 768px) 92vw, 340px"
+                alt={`Paso ${indice + 1}: ${paso.titulo}`}
+                loading="lazy"
+                decoding="async"
+                class="block aspect-[4/3] w-full object-cover"
+              />
+            </div>
+            <div class="flex flex-col gap-1 p-4 md:p-5">
+              <h3 class="text-xl">{paso.titulo}</h3>
+              <p class="text-[15px] text-tinta/75">{paso.texto}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

@@ -1,0 +1,98 @@
+---
+/**
+ * Comparativa: BlendGo vs licuadora tradicional.
+ * La columna de BlendGo va resaltada en amarillo.
+ */
+import Icono from '../ui/Icono.astro';
+import Boton from '../ui/Boton.astro';
+import { tienda } from '../../config/tienda';
+import { construirCatalogo, urlInicial } from '../../lib/catalogo';
+import type { Producto } from '../../lib/tipos';
+
+interface Props {
+  producto: Producto;
+}
+
+const { producto } = Astro.props;
+const urlComparativa = urlInicial(construirCatalogo(producto), 'comparativa');
+---
+
+<section id="comparativa" class="bg-humo py-14 md:py-20">
+  <div class="contenedor">
+    <header class="mb-8 max-w-2xl">
+      <p class="mb-2 font-titular text-xs uppercase tracking-[0.18em] text-oferta-oscuro md:text-sm">
+        Cara a cara
+      </p>
+      <h2>{producto.nombre} vs licuadora tradicional</h2>
+    </header>
+
+    <div class="tarjeta overflow-hidden">
+      <table class="w-full border-collapse text-left text-sm md:text-base">
+        <caption class="sr-only">
+          Comparación entre {producto.nombre} y una licuadora tradicional
+        </caption>
+        <thead>
+          <tr class="border-b-2 border-tinta">
+            <th scope="col" class="w-[30%] p-3 align-bottom font-titular text-sm md:p-4 md:text-base">
+              Característica
+            </th>
+            <th scope="col" class="w-[35%] bg-electrico p-3 align-bottom font-titular text-sm md:p-4 md:text-base">
+              {producto.nombre}
+            </th>
+            <th scope="col" class="w-[35%] p-3 align-bottom font-titular text-sm text-tinta/60 md:p-4 md:text-base">
+              Licuadora tradicional
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            producto.comparativa.map((fila) => (
+              <tr class="border-b-2 border-tinta/10 last:border-b-0">
+                <th scope="row" class="p-3 align-middle text-sm font-semibold md:p-4 md:text-base">
+                  {fila.caracteristica}
+                </th>
+                <td class="bg-electrico/35 p-3 align-middle md:p-4">
+                  <span class="flex items-start gap-1.5">
+                    <span class="mt-0.5 grid size-4 shrink-0 place-items-center rounded-full bg-exito">
+                      <Icono name="check" size={11} strokeWidth={4} class="text-tinta" />
+                    </span>
+                    <span class="font-semibold">{fila.blendgo}</span>
+                  </span>
+                </td>
+                <td class="p-3 align-middle text-tinta/60 md:p-4">
+                  <span class="flex items-start gap-1.5">
+                    <span class="mt-0.5 grid size-4 shrink-0 place-items-center rounded-full bg-tinta/15">
+                      <Icono name="x" size={11} strokeWidth={4} class="text-tinta" />
+                    </span>
+                    <span>{fila.tradicional}</span>
+                  </span>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-6 flex flex-col items-center gap-3">
+      <p class="text-center text-[15px] text-tinta/70">
+        La diferencia se nota en el primer día: la dejas en el bolso y listo.
+      </p>
+
+      <Boton
+        href={urlComparativa}
+        variante="primario"
+        tamano="lg"
+        icono="whatsapp"
+        origen="comparativa"
+        ariaLabel={`Pedir la mía por WhatsApp de ${producto.nombre}`}
+      >
+        Pedir la mía por WhatsApp
+      </Boton>
+
+      <p class="text-center text-sm text-tinta/70">
+        Pago contra entrega · Envío {tienda.tiempoEnvio} · Garantía {producto.garantia.dias} días
+      </p>
+    </div>
+  </div>
+</section>

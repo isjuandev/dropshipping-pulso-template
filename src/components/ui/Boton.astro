@@ -1,0 +1,67 @@
+---
+/**
+ * Botón/CTA. Todos los que abren WhatsApp llevan `data-wa` + `data-origen`
+ * para que el script de tracking los detecte de forma uniforme.
+ */
+import Icono, { type NombreIcono } from './Icono.astro';
+
+interface Props {
+  href: string;
+  variante?: 'primario' | 'oscuro' | 'whatsapp';
+  tamano?: 'md' | 'lg' | 'xl';
+  icono?: NombreIcono;
+  /** Punto de la landing del que sale el clic. */
+  origen?: string;
+  pulso?: boolean;
+  ancho?: 'auto' | 'completo';
+  ariaLabel?: string;
+  clase?: string;
+}
+
+const {
+  href,
+  variante = 'primario',
+  tamano = 'lg',
+  icono,
+  origen,
+  pulso = false,
+  ancho = 'auto',
+  ariaLabel,
+  clase = '',
+} = Astro.props;
+
+const variantes: Record<string, string> = {
+  primario: 'boton boton-primario',
+  oscuro: 'boton boton-oscuro',
+  whatsapp: 'boton boton-whatsapp',
+};
+
+const tamanos: Record<string, string> = {
+  md: 'h-11 px-4 text-sm',
+  lg: 'h-14 px-6 text-base',
+  xl: 'h-14 px-6 text-lg',
+};
+
+const clases = [
+  variantes[variante] ?? variantes.primario,
+  tamanos[tamano] ?? tamanos.lg,
+  ancho === 'completo' ? 'w-full' : '',
+  pulso ? 'cta-pulso' : '',
+  clase,
+]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<a
+  href={href}
+  class={clases}
+  target="_blank"
+  rel="noopener noreferrer"
+  data-wa
+  data-origen={origen}
+  aria-label={ariaLabel}
+>
+  {icono && <Icono name={icono} size={22} class="shrink-0" />}
+  <slot />
+</a>

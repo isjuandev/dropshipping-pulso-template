@@ -1,0 +1,24 @@
+---
+/** Insignia / badge de la marca. */
+interface Props {
+  texto: string;
+  color?: 'electrico' | 'oferta' | 'tinta' | 'blanco' | 'exito' | 'humo';
+  clase?: string;
+}
+
+const { texto, color = 'electrico', clase = '' } = Astro.props;
+
+const colores: Record<string, string> = {
+  electrico: 'bg-electrico text-tinta',
+  oferta: 'bg-oferta text-tinta',
+  tinta: 'bg-tinta text-blanco',
+  blanco: 'bg-blanco text-tinta',
+  exito: 'bg-exito text-tinta',
+  humo: 'bg-humo text-tinta',
+};
+---
+
+<span class={`insignia ${colores[color] ?? colores.electrico} ${clase}`}>
+  <slot />
+  {texto}
+</span>

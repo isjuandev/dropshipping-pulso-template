@@ -1,0 +1,37 @@
+---
+/** Estrellas de valoración con relleno fraccionario. */
+import Icono from './Icono.astro';
+
+interface Props {
+  valor: number;
+  total?: number;
+  tamano?: number;
+  clase?: string;
+}
+
+const { valor, total = 5, tamano = 18, clase = '' } = Astro.props;
+const estrellas = Array.from({ length: total }, (_, i) => i);
+---
+
+<span class={`inline-flex items-center gap-0.5 ${clase}`} aria-hidden="true">
+  {
+    estrellas.map((i) => {
+      const completo = valor >= i + 1;
+      const parcial = !completo && valor > i;
+      const porcentaje = parcial ? Math.round((valor - i) * 100) : 0;
+      return (
+        <span class="relative inline-flex">
+          <Icono name="star" size={tamano} class="text-tinta/25" />
+          {(completo || parcial) && (
+            <span
+              class="absolute inset-0 overflow-hidden text-tinta"
+              style={parcial ? `width: ${porcentaje}%` : undefined}
+            >
+              <Icono name="star" size={tamano} class="fill-current" relleno />
+            </span>
+          )}
+        </span>
+      );
+    })
+  }
+</span>

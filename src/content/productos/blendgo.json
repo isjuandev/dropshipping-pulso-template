@@ -1,0 +1,192 @@
+{
+  "slug": "blendgo",
+  "nombre": "BlendGo",
+  "titulo": "Batidos frescos en 30 segundos, donde estés",
+  "subtitulo": "Licuadora portátil USB-C. Cabe en tu bolso.",
+  "precio": 89900,
+  "precioAnterior": 149900,
+  "descripcion": "BlendGo es una licuadora portátil de 350 g que se carga con USB-C, como tu celular. Muele fruta congelada, hielo y leche en 30 segundos, en el escritorio, el gimnasio o el carro. Pagas cuando te llega.",
+  "imagenes": [
+    "../../assets/producto/blendgo-menta.png",
+    "../../assets/producto/uso-oficina.png",
+    "../../assets/producto/uso-gimnasio.png",
+    "../../assets/producto/uso-carro.png"
+  ],
+  "video": "/video/blendgo-loop.mp4",
+  "poster": "../../assets/producto/blendgo-menta.png",
+  "variantes": [
+    {
+      "nombre": "Menta",
+      "hex": "#5FE3B0",
+      "imagen": "../../assets/producto/blendgo-menta.png"
+    },
+    {
+      "nombre": "Negro",
+      "hex": "#26262C",
+      "imagen": "../../assets/producto/blendgo-negro.png"
+    },
+    {
+      "nombre": "Rosa",
+      "hex": "#FF8AB0",
+      "imagen": "../../assets/producto/blendgo-rosa.png"
+    }
+  ],
+  "beneficios": [
+    {
+      "titulo": "Carga como tu celular",
+      "texto": "Puerto USB-C. El mismo cable de siempre.",
+      "icono": "zap"
+    },
+    {
+      "titulo": "Listo en 30 segundos",
+      "texto": "Ponla, presiona y tu batido queda listo.",
+      "icono": "timer"
+    },
+    {
+      "titulo": "Cabe en el bolso",
+      "texto": "350 gramos. La llevas a todas partes.",
+      "icono": "bag"
+    },
+    {
+      "titulo": "Limpia en un minuto",
+      "texto": "Agua, tapa y cuchilla. Nada más.",
+      "icono": "sparkles"
+    },
+    {
+      "titulo": "Seis batidos por carga",
+      "texto": "Rinde toda la semana con una sola carga.",
+      "icono": "battery"
+    },
+    {
+      "titulo": "Casi no hace ruido",
+      "texto": "Menos de 80 dB. Hablas mientras licúa.",
+      "icono": "volume"
+    }
+  ],
+  "dolores": [
+    {
+      "titulo": "Licuadoras de dos kilos",
+      "texto": "Pesan más que tu bolso y ocupan toda la cocina."
+    },
+    {
+      "titulo": "Batidos que salen caro",
+      "texto": "Cada uno vale $18.000 y terminas gastando la semana."
+    },
+    {
+      "titulo": "Cero tiempo en la mañana",
+      "texto": "Desayunar bien implica esperar y lavar equipos."
+    }
+  ],
+  "pasos": [
+    {
+      "titulo": "Carga",
+      "texto": "Conecta el USB-C. Una carga te da seis batidos.",
+      "imagen": "../../assets/pasos/paso-1-carga.png"
+    },
+    {
+      "titulo": "Agrega",
+      "texto": "Pon fruta, leche y hielo. Cierra la tapa.",
+      "imagen": "../../assets/pasos/paso-2-agrega.png"
+    },
+    {
+      "titulo": "Presiona",
+      "texto": "Un botón y en 30 segundos está listo.",
+      "imagen": "../../assets/pasos/paso-3-presiona.png"
+    }
+  ],
+  "comparativa": [
+    {
+      "caracteristica": "Portabilidad",
+      "blendgo": "Gana en el bolso",
+      "tradicional": "Ocupa la cocina",
+      "ventaja": "blendgo"
+    },
+    {
+      "caracteristica": "Carga USB-C",
+      "blendgo": "Sí, la de tu celular",
+      "tradicional": "Pilas y enchufe propio",
+      "ventaja": "blendgo"
+    },
+    {
+      "caracteristica": "Limpieza",
+      "blendgo": "30 segundos con agua",
+      "tradicional": "Desmontar, lavar y secar",
+      "ventaja": "blendgo"
+    },
+    {
+      "caracteristica": "Ruido",
+      "blendgo": "80 dB, casi silencio",
+      "tradicional": "95 dB, molesto",
+      "ventaja": "blendgo"
+    },
+    {
+      "caracteristica": "Precio",
+      "blendgo": "$89.900",
+      "tradicional": "$250.000 o más",
+      "ventaja": "blendgo"
+    },
+    {
+      "caracteristica": "Peso",
+      "blendgo": "350 g",
+      "tradicional": "2.100 g",
+      "ventaja": "blendgo"
+    }
+  ],
+  "stock": 23,
+  "rating": 4.8,
+  "numResenas": 1240,
+  "distribucion": [
+    {
+      "estrellas": 5,
+      "porcentaje": 86
+    },
+    {
+      "estrellas": 4,
+      "porcentaje": 9
+    },
+    {
+      "estrellas": 3,
+      "porcentaje": 3
+    },
+    {
+      "estrellas": 2,
+      "porcentaje": 1
+    },
+    {
+      "estrellas": 1,
+      "porcentaje": 1
+    }
+  ],
+  "paquetes": [
+    {
+      "unidades": 1,
+      "precio": 89900,
+      "etiqueta": "1 unidad",
+      "nota": "Para probar"
+    },
+    {
+      "unidades": 2,
+      "precio": 159800,
+      "etiqueta": "2 unidades",
+      "destacado": "MÁS VENDIDO"
+    },
+    {
+      "unidades": 3,
+      "precio": 219900,
+      "etiqueta": "3 unidades",
+      "destacado": "MEJOR PRECIO",
+      "nota": "2 colores a elegir"
+    }
+  ],
+  "garantia": {
+    "dias": 30,
+    "titulo": "30 días de garantía",
+    "texto": "Si el producto no funciona como te prometimos, lo cambiamos sin letra pequeña. Escribes por WhatsApp, revisamos las fotos y te enviamos el reemplazo.",
+    "cubre": [
+      "Batería que no carga o que se apaga sola",
+      "Cuchilla que no gira o motor con ruido anormal",
+      "Fugas o tapas que no sellan",
+      "Fallas de fábrica en el cuerpo o la jarra"
+    ]
+  }
+}

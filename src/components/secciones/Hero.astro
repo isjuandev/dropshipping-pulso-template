@@ -1,0 +1,225 @@
+---
+/**
+ * Hero: galería + propuesta de valor + CTA.
+ * ------------------------------------------------------------------
+ * La galería usa scroll-snap nativo (sin JS). La foto principal cambia
+ * con el color elegido: el radio del selector (isla PackSelector) mueve
+ * un :has() en CSS que muestra la imagen del color activo.
+ */
+import { Picture } from 'astro:assets';
+import Boton from '../ui/Boton.astro';
+import Estrellas from '../ui/Estrellas.astro';
+import Icono from '../ui/Icono.astro';
+import Insignia from '../ui/Insignia.astro';
+import Precios from '../ui/Precios.astro';
+import PackSelector from '../islas/PackSelector.tsx';
+import { tienda } from '../../config/tienda';
+import { construirCatalogo, urlInicial } from '../../lib/catalogo';
+import { numero, porcentajeAhorro } from '../../lib/formato';
+import type { Producto } from '../../lib/tipos';
+
+interface Props {
+  producto: Producto;
+}
+
+const { producto } = Astro.props;
+const catalogo = construirCatalogo(producto);
+const descuento = porcentajeAhorro(producto.precio, producto.precioAnterior);
+const urlHero = urlInicial(catalogo, 'hero');
+
+const slug = (texto: string) =>
+  texto
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+
+const bullets = producto.beneficios.slice(0, 3);
+const fotosUso = producto.imagenes.slice(1, 4);
+---
+
+<section id="hero" class="relative overflow-hidden bg-electrico">
+  <div class="contenedor py-6 md:py-10">
+    <div class="grid items-start gap-5 lg:grid-cols-[1.05fr_1fr] lg:gap-10">
+      <!-- ============================ GALERÍA ============================ -->
+      <div class="galeria-marco">
+        <div class="galeria relative rounded-brutal border-2 border-tinta bg-electrico shadow-brutal">
+          <!-- Slide 1: video vertical en loop, sin sonido -->
+          <div id="slide-1" class="relative h-[260px] sm:h-[400px] lg:h-[520px]">
+            <video
+              class="absolute inset-0 size-full object-contain"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              poster="/video/blendgo-poster.jpg"
+              aria-label={`Video de ${producto.nombre} en uso`}
+            >
+              <source src={producto.video} type="video/mp4" />
+            </video>
+          </div>
+
+          <!-- Slide 2: foto principal (cambia con el color) -->
+          <div id="slide-2" class="relative h-[260px] sm:h-[400px] lg:h-[520px]">
+            {
+              producto.variantes.map((variante) => (
+                <div class="foto-color absolute inset-0" data-color={slug(variante.nombre)}>
+                  <Picture
+                    src={variante.imagen}
+                    formats={['avif', 'webp']}
+                  fallbackFormat="webp"
+                    widths={[400, 640, 900]}
+                    sizes="(max-width: 1024px) 92vw, 520px"
+                    alt={`${producto.nombre} licuadora portátil en color ${variante.nombre}`}
+                    loading="lazy"
+                    decoding="async"
+                    class="size-full object-cover"
+                  />
+                </div>
+              ))
+            }
+          </div>
+
+          <!-- Slides 3-5: producto en uso real -->
+          {
+            fotosUso.map((imagen, indice) => (
+              <div id={`slide-${indice + 3}`} class="relative h-[260px] sm:h-[400px] lg:h-[520px]">
+                <Picture
+                  src={imagen}
+                  formats={['avif', 'webp']}
+                  fallbackFormat="webp"
+                  widths={[400, 640, 900]}
+                  sizes="(max-width: 1024px) 92vw, 520px"
+                  alt={`${producto.nombre} en uso ${['en la oficina', 'en el gimnasio', 'en el carro'][indice] ?? ''}`}
+                  loading="lazy"
+                  decoding="async"
+                  class="size-full object-cover"
+                />
+              </div>
+            ))
+          }
+        </div>
+
+        <!-- Puntos indicadores (siguen el scroll con CSS puro) -->
+        <div class="mt-4 flex items-center justify-center gap-2" aria-hidden="true">
+          {
+            [1, 2, 3, 4, 5].map((n) => (
+              <a
+                href={`#slide-${n}`}
+                class={`punto punto-${n} block size-3.5 rounded-full border-2 border-tinta bg-transparent transition-transform`}
+                tabindex="-1"
+              />
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- ============================ CONTENIDO =========================== -->
+      <div class="flex flex-col gap-3">
+        <div class="flex flex-wrap items-center gap-2">
+          <Insignia texto={`-${descuento}%`} color="oferta" />
+          <Insignia texto="Envío gratis" color="tinta" />
+        </div>
+
+        <h1 class="max-w-[18ch]">{producto.titulo}</h1>
+
+        <p class="max-w-[46ch] text-base text-tinta/80 md:text-lg">{producto.subtitulo}</p>
+
+        <div class="flex items-center gap-2">
+          <Estrellas valor={producto.rating} tamano={20} />
+          <span class="tabular font-titular text-sm">{producto.rating}</span>
+          <span class="text-sm text-tinta/70">
+            ({numero(producto.numResenas)} reseñas)
+          </span>
+        </div>
+
+        <Precios
+          precioActual={producto.precio}
+          precioAnterior={producto.precioAnterior}
+          tamano="lg"
+          clase="mt-1"
+        />
+
+        <p class="-mt-1 text-sm font-semibold text-tinta/80">
+          <span data-wa-texto data-wa-plantilla="Tu pedido: {unidades} · {total}">
+            Tu pedido: 1 unidad · {producto.precio.toLocaleString('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 })}
+          </span>
+        </p>
+
+        <ul class="flex flex-col gap-1.5">
+          {
+            bullets.map((beneficio) => (
+              <li class="flex items-start gap-2 text-[14px] leading-snug md:text-[15px]">
+                <span class="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-exito">
+                  <Icono name="check" size={13} strokeWidth={4} class="text-tinta" />
+                </span>
+                <span>
+                  <strong class="font-semibold">{beneficio.titulo}.</strong>{' '}
+                  <span class="text-tinta/75">{beneficio.texto}</span>
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+
+        <PackSelector client:visible catalogo={catalogo} vista="color" prefijo="hero" />
+
+        <Boton
+          href={urlHero}
+          variante="primario"
+          tamano="xl"
+          ancho="completo"
+          icono="whatsapp"
+          origen="hero"
+          pulso
+          ariaLabel={`Lo quiero — pedir por WhatsApp de ${producto.nombre}`}
+        >
+          Lo quiero — pedir por WhatsApp
+        </Boton>
+
+        <p class="text-center text-xs text-tinta/70 md:text-sm">
+          Te respondemos en menos de 5 minutos · {tienda.horarioAtencion}
+        </p>
+
+        {
+          tienda.stock.activo && (
+            <div class="tarjeta-humo mt-1 p-3">
+              <div class="flex items-center justify-between gap-3 text-sm">
+                <span class="font-semibold">
+                  <span class="inline-block size-2 rounded-full bg-exito align-middle" /> En stock
+                </span>
+                <span class="tabular font-semibold">Quedan {tienda.stock.unidades} unidades</span>
+              </div>
+              <div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-tinta/15">
+                <div class="h-full w-[38%] rounded-full bg-oferta" />
+              </div>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* La foto principal muestra el color elegido. */
+  .foto-color {
+    display: none;
+  }
+
+  @supports selector(:has(*)) {
+    :global(html:has(input[data-color='menta']:checked)) .foto-color[data-color='menta'],
+    :global(html:has(input[data-color='negro']:checked)) .foto-color[data-color='negro'],
+    :global(html:has(input[data-color='rosa']:checked)) .foto-color[data-color='rosa'] {
+      display: block;
+    }
+  }
+
+  @supports not selector(:has(*)) {
+    .foto-color[data-color='menta'] {
+      display: block;
+    }
+  }
+</style>

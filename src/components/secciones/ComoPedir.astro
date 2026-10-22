@@ -1,0 +1,54 @@
+---
+/**
+ * Cómo pedir: 3 pasos que quitan el miedo a lo desconocido.
+ */
+import Icono, { type NombreIcono } from '../ui/Icono.astro';
+
+const pasos: { icono: NombreIcono; titulo: string; texto: string }[] = [
+  {
+    icono: 'message',
+    titulo: 'Toca el botón',
+    texto: 'Escríbenos por WhatsApp con el pedido ya escrito.',
+  },
+  {
+    icono: 'check-circle',
+    titulo: 'Confirma por WhatsApp',
+    texto: 'Te respondemos en minutos y cerramos la ciudad y el color.',
+  },
+  {
+    icono: 'wallet',
+    titulo: 'Paga cuando te llegue',
+    texto: 'Entregas en efectivo, Nequi o transferencia. Sin anticipo.',
+  },
+];
+---
+
+<section id="como-pedir" class="bg-humo py-14 md:py-20">
+  <div class="contenedor">
+    <header class="mb-8 max-w-2xl">
+      <p class="mb-2 font-titular text-xs uppercase tracking-[0.18em] text-oferta-oscuro md:text-sm">
+        Sin formularios, sin tarjetas
+      </p>
+      <h2>Pedir es más fácil de lo que crees</h2>
+    </header>
+
+    <ol class="grid gap-4 md:grid-cols-3 md:gap-5">
+      {
+        pasos.map((paso, indice) => (
+          <li class="tarjeta flex flex-col gap-2 p-5">
+            <div class="flex items-center gap-3">
+              <span class="grid size-11 shrink-0 place-items-center rounded-[10px] border-2 border-tinta bg-electrico">
+                <Icono name={paso.icono} size={22} />
+              </span>
+              <span class="tabular font-titular text-3xl leading-none text-tinta/25">
+                {indice + 1}
+              </span>
+            </div>
+            <h3 class="text-xl">{paso.titulo}</h3>
+            <p class="text-[15px] text-tinta/75">{paso.texto}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

@@ -1,0 +1,93 @@
+---
+/**
+ * Página de devoluciones y garantía.
+ * Texto editable. Base legal: Ley 1480 de 2011 (Estatuto del Consumidor)
+ * y Ley 1915 de 2012 (comercio electrónico).
+ */
+import Legal from '../layouts/Legal.astro';
+import { tienda } from '../config/tienda';
+import { getCollection } from 'astro:content';
+
+const productos = await getCollection('productos');
+const producto = productos[0];
+const diasGarantia = producto?.data.garantia.dias ?? 30;
+---
+
+<Legal
+  titulo="Devoluciones y garantía"
+  descripcion={`Derecho de retracto en 5 días hábiles, garantía de ${diasGarantia} días y política de cambios de ${tienda.nombreTienda}.`}
+  ruta="/devoluciones/"
+  actualizado="1 de enero de 2026"
+>
+  <h2>1. Tu derecho de retracto (5 días hábiles)</h2>
+  <p>
+    Como consumidor en Colombia tienes <strong>5 días hábiles</strong> desde que recibes el
+    producto para retractarte de la compra, sin tener que justificar el motivo. Este derecho
+    está reconocido en el <strong>artículo 8 de la Ley 1480 de 2011</strong> (Estatuto del
+    Consumidor) y en el <strong>artículo 8 de la Ley 1915 de 2012</strong> para las ventas
+    electrónicas.
+  </p>
+  <p>Para ejercerlo:</p>
+  <ul>
+    <li>Escríbenos por WhatsApp al {tienda.whatsappDisplay} dentro de los 5 días hábiles siguientes a la entrega.</li>
+    <li>El producto debe estar sin uso, sin daños, con todos sus accesorios y en su empaque original.</li>
+    <li>Programamos la recogida en tu casa sin costo y te devolvemos el 100 % del dinero en un máximo de 15 días calendario.</li>
+  </ul>
+
+  <h2>2. Garantía de {diasGarantia} días</h2>
+  <p>
+    Además del derecho de retracto, todos nuestros productos tienen <strong
+      >{diasGarantia} días de garantía comercial</strong
+    >. Si el producto falla por un defecto de fábrica, lo cambiamos sin que tengas que devolverlo
+    antes de la aprobación.
+  </p>
+  <p>Cubre, entre otros:</p>
+  <ul>
+    <li>Batería que no carga o que se apaga sola antes de lo prometido.</li>
+    <li>Cuchilla que no gira o motor con ruido anormal.</li>
+    <li>Fugas de líquido o tapas que no sellan.</li>
+    <li>Fallas de fábrica del cuerpo o la jarra.</li>
+  </ul>
+  <p>
+    Para hacer válida la garantía escríbenos por WhatsApp con un video o unas fotos del
+    problema. Respondemos en menos de 5 minutos durante el horario de atención.
+  </p>
+
+  <h2>3. Garantía legal del consumidor</h2>
+  <p>
+    Conforme al <strong>artículo 21 de la Ley 1480 de 2011</strong>, los bienes duraderos
+    tienen una garantía legal mínima de <strong>6 meses</strong>. Si el defecto no fue cubierto
+    por la garantía comercial de {diasGarantia} días, puedes hacer valer la garantía legal en
+    los términos de la ley, escribiendo al correo {tienda.legal.email}.
+  </p>
+
+  <h2>4. Cambios de color o de paquete</h2>
+  <p>
+    Si pediste un color equivocado o quieres cambiar la cantidad de unidades, escríbenos dentro
+    de los 5 días hábiles. Si el producto está sin uso, te enviamos el color o la unidad
+    correcta sin costo de envío.
+  </p>
+
+  <h2>5. Producto con daño o que no corresponde</h2>
+  <p>
+    Recibiste algo que no corresponde o llegó con daño. Mándanos fotos por WhatsApp el mismo día
+    de la entrega: reponemos el producto de inmediato sin que tengas que devolverlo primero.
+  </p>
+
+  <h2>6. Lo que no cubre la garantía</h2>
+  <p>
+    La garantía no cubre el desgaste por uso indebido, golpes o caídas, inmersión en agua,
+    daño por conectar un cargador que no sea USB-C, ni productos que hayan sido abiertos o
+    modificados. Si crees que tu caso aplica, igual escríbenos: siempre revisamos tu caso con
+    buena fe.
+  </p>
+
+  <h2>7. Cómo te devolvemos el dinero</h2>
+  <ul>
+    <li><strong>Contra entrega:</strong> devolvemos el dinero en efectivo o por transferencia al confirmar que recogimos el producto.</li>
+    <li><strong>Nequi o transferencia:</strong> devolvemos el valor al mismo medio de pago, en un máximo de 15 días calendario.</li>
+  </ul>
+  <p>
+    Tus datos se tratan de acuerdo con nuestra <a href="/privacidad/" class="enlace-fuerte">política de privacidad</a>.
+  </p>
+</Legal>

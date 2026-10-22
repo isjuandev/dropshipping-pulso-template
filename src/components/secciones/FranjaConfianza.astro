@@ -1,0 +1,37 @@
+---
+/**
+ * Franja de confianza: 4 señales que matan el miedo, sobre fondo tinta.
+ * En móvil se desplaza horizontalmente; en desktop son 4 columnas.
+ */
+import Icono, { type NombreIcono } from '../ui/Icono.astro';
+import { tienda } from '../../config/tienda';
+
+const señales: { icono: NombreIcono; titulo: string; texto: string }[] = [
+  { icono: 'wallet', titulo: 'Pago contra entrega', texto: 'Pagas cuando llega' },
+  { icono: 'truck', titulo: `Envío ${tienda.tiempoEnvio}`, texto: 'Rastreo por WhatsApp' },
+  { icono: 'shield', titulo: 'Garantía 30 días', texto: 'Cambio sin letra chica' },
+  { icono: 'users', titulo: '+5.000 clientes', texto: 'Ya llegó a tu ciudad' },
+];
+---
+
+<section class="bg-tinta text-blanco">
+  <div class="contenedor py-4 md:py-5">
+    <ul class="tira">
+      {
+        señales.map((senal) => (
+          <li class="flex w-[220px] items-center gap-3 md:w-auto md:flex-col md:items-start md:gap-2">
+            <span class="grid size-9 shrink-0 place-items-center rounded-[10px] border-2 border-blanco/80 text-electrico">
+              <Icono name={senal.icono} size={18} />
+            </span>
+            <span class="min-w-0">
+              <span class="block font-titular text-[13px] uppercase tracking-wide md:text-sm">
+                {senal.titulo}
+              </span>
+              <span class="block text-[13px] text-blanco/70">{senal.texto}</span>
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

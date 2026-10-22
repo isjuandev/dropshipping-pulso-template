@@ -1,0 +1,45 @@
+---
+/**
+ * Barra de anuncio. Fondo de oferta, texto blanco y contador opcional.
+ * El contador se apaga desde src/config/tienda.ts (contador.activo).
+ */
+import Countdown from '../islas/Countdown.tsx';
+import { tienda } from '../../config/tienda';
+---
+
+<div class="bg-oferta-oscuro text-blanco">
+  <div
+    class="contenedor flex min-h-10 items-center justify-center gap-x-2 gap-y-0.5 py-1 text-center text-[13px] font-semibold leading-tight md:text-sm"
+  >
+    <span class="inline-flex items-center gap-1.5">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+        <path d="M15 18H9"></path>
+        <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path>
+        <circle cx="17" cy="18" r="2"></circle>
+        <circle cx="7" cy="18" r="2"></circle>
+      </svg>
+      <span class="md:hidden">Envío gratis · paga al recibir</span>
+      <span class="hidden md:inline">Envío GRATIS + pago contra entrega</span>
+    </span>
+
+    {
+      tienda.contador.activo ? (
+        <span class="inline-flex items-center gap-1.5">
+          <span aria-hidden="true">·</span>
+          <span class="hidden sm:inline">La oferta termina en</span>
+          <Countdown
+            client:visible
+            activo={tienda.contador.activo}
+            horaReinicio={tienda.contador.horaReinicio}
+          />
+        </span>
+      ) : (
+        <span class="inline-flex items-center gap-1.5">
+          <span aria-hidden="true">·</span>
+          <span>Precio con descuento por tiempo limitado</span>
+        </span>
+      )
+    }
+  </div>
+</div>

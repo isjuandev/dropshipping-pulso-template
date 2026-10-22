@@ -1,0 +1,76 @@
+---
+/**
+ * CTA final: repite la oferta, el precio y el contador.
+ * Fondo tinta. El id="cta-final" lo usa la barra fija para ocultarse.
+ */
+import Boton from '../ui/Boton.astro';
+import Precios from '../ui/Precios.astro';
+import Countdown from '../islas/Countdown.tsx';
+import { tienda } from '../../config/tienda';
+import { construirCatalogo, urlInicial } from '../../lib/catalogo';
+import { precio } from '../../lib/formato';
+import type { Producto } from '../../lib/tipos';
+
+interface Props {
+  producto: Producto;
+}
+
+const { producto } = Astro.props;
+const catalogo = construirCatalogo(producto);
+const urlFinal = urlInicial(catalogo, 'final');
+---
+
+<section id="cta-final" class="bg-tinta py-14 text-blanco md:py-20">
+  <div class="contenedor">
+    <div class="mx-auto flex max-w-2xl flex-col items-center gap-5 text-center">
+      <span class="insignia bg-electrico text-tinta">Última llamada</span>
+
+      <h2 class="text-white">Tu batido listo en 30 segundos</h2>
+
+      <p class="max-w-[46ch] text-[15px] text-blanco/75 md:text-base">
+        Pagas cuando te llega. Si no te gusta, te devolvemos tu plata.
+      </p>
+
+      <Precios
+        precioActual={producto.precio}
+        precioAnterior={producto.precioAnterior}
+        tamano="lg"
+        oscuro
+        clase="justify-center"
+      />
+
+      {
+        tienda.contador.activo && (
+          <p class="flex items-center gap-2 text-sm font-semibold text-blanco/85">
+            <span>La oferta termina en</span>
+            <Countdown
+              client:visible
+              activo={tienda.contador.activo}
+              horaReinicio={tienda.contador.horaReinicio}
+            />
+          </p>
+        )
+      }
+
+      <Boton
+        href={urlFinal}
+        variante="primario"
+        tamano="xl"
+        ancho="completo"
+        icono="whatsapp"
+        origen="final"
+        pulso
+      >
+        <span data-wa-texto data-wa-plantilla="Pedir {unidades} por {total}">
+          Pedir 1 unidad por {precio(producto.precio)}
+        </span>
+      </Boton>
+
+      <ul class="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-sm text-blanco/70">
+        <li>Pago contra entrega</li>
+        <li>Envío {tienda.tiempoEnvio}</li>
+        <li>Garantía {producto.garantia.dias} días</li>
+      </ul>
+    </div>
+  </div>
+</section>

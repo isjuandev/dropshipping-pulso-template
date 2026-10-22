@@ -1,0 +1,583 @@
+@import 'tailwindcss';
+
+/* ================================================================== */
+/* Tokens de marca — Pulso × ViralyShop                               */
+/* ================================================================== */
+
+@theme {
+  /* Color */
+  --color-tinta: #0b0b0f;
+  --color-electrico: #ffd60a;
+  --color-oferta: #e5383b;
+  --color-blanco: #ffffff;
+  --color-humo: #f4f4f5;
+  --color-gris: #52525b;
+  --color-exito: #16a34a;
+  --color-whatsapp: #25d366;
+
+  /*
+   * Variantes derivadas, usadas solo donde el color base NO alcanza
+   * el contraste AA. Ver README § Contraste.
+   *   - oferta-oscuro: texto blanco encima (5.6:1). El #E5383B queda en 4.2:1.
+   *   - exito-texto:   verde legible como texto (4.6:1 sobre amarillo y 6.5:1
+   *                    sobre blanco). #16A34A queda en 3.3:1 y no alcanza AA.
+   */
+  --color-oferta-oscuro: #c42b2e;
+  --color-exito-texto: #146c43;
+
+  /* Tipografía */
+  --font-titular: 'Archivo Black', 'Archivo Black Fallback', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-cuerpo: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Forma */
+  --radius-brutal: 14px;
+  --radius-brutal-full: 999px;
+
+  /* Sombras duras (neo-brutalismo suave) */
+  --shadow-brutal: 4px 4px 0 0 #0b0b0f;
+  --shadow-brutal-sm: 3px 3px 0 0 #0b0b0f;
+  --shadow-brutal-lg: 6px 6px 0 0 #0b0b0f;
+  --shadow-brutal-press: 1px 1px 0 0 #0b0b0f;
+  --shadow-brutal-blanco: 4px 4px 0 0 #ffffff;
+
+  /* Ritmo */
+  --spacing-bloque: 4rem;
+}
+
+/* ================================================================== */
+/* Fuentes self-hosted                                                 */
+/* ================================================================== */
+
+@font-face {
+  font-family: 'Archivo Black';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/archivo-black-latin-400-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter Variable';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter-latin-wght-normal.woff2') format('woff2');
+}
+
+/* ================================================================== */
+/* Base                                                                */
+/* ================================================================== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-blanco);
+    color: var(--color-tinta);
+    font-family: var(--font-cuerpo);
+    font-size: 1rem;
+    line-height: 1.625;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-titular);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+    line-height: 2rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Foco visible y consistente (WCAG 2.4.7) */
+  :focus-visible {
+    outline: 3px solid var(--color-electrico);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Numbers tabulares en precios */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    background-color: var(--color-electrico);
+    color: var(--color-tinta);
+  }
+
+  @media (min-width: 768px) {
+    h1 {
+      font-size: 3.5rem;
+      line-height: 3.75rem;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      line-height: 2.75rem;
+    }
+  }
+}
+
+/* ================================================================== */
+/* Componentes                                                         */
+/* ================================================================== */
+
+@layer components {
+  /* Contenedor principal: 2 columnas en desktop, máx. 1120 px */
+  .contenedor {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 1120px;
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .contenedor {
+      padding-inline: 1.5rem;
+    }
+  }
+
+  /* Tarjeta base */
+  .tarjeta {
+    border: 2px solid var(--color-tinta);
+    border-radius: var(--radius-brutal);
+    background-color: var(--color-blanco);
+    box-shadow: var(--shadow-brutal);
+  }
+
+  .tarjeta-humo {
+    border: 2px solid var(--color-tinta);
+    border-radius: var(--radius-brutal);
+    background-color: var(--color-humo);
+  }
+
+  /* Botones */
+  .boton {
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 2px solid var(--color-tinta);
+    border-radius: var(--radius-brutal);
+    font-family: var(--font-titular);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    transition:
+      transform 120ms ease,
+      box-shadow 120ms ease;
+  }
+
+  .boton-activo:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-brutal-press);
+  }
+
+  .boton-primario {
+    background-color: var(--color-electrico);
+    color: var(--color-tinta);
+    box-shadow: var(--shadow-brutal);
+  }
+
+  .boton-primario:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: var(--shadow-brutal-lg);
+  }
+
+  .boton-primario:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-brutal-press);
+  }
+
+  .boton-oscuro {
+    background-color: var(--color-tinta);
+    color: var(--color-blanco);
+    box-shadow: var(--shadow-brutal-blanco);
+  }
+
+  .boton-oscuro:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 6px 6px 0 0 var(--color-electrico);
+  }
+
+  .boton-oscuro:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 0 var(--color-electrico);
+  }
+
+  .boton-whatsapp {
+    background-color: var(--color-whatsapp);
+    color: var(--color-tinta);
+    box-shadow: var(--shadow-brutal);
+  }
+
+  .boton-whatsapp:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: var(--shadow-brutal-lg);
+  }
+
+  .boton-whatsapp:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-brutal-press);
+  }
+
+  /* Insignias */
+  .insignia {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: var(--radius-brutal-full);
+    padding: 0.25rem 0.625rem;
+    font-family: var(--font-titular);
+    font-size: 0.75rem;
+    line-height: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  /* Resalte de palabra clave */
+  .resaltado {
+    background-color: var(--color-electrico);
+    color: var(--color-tinta);
+    padding-inline: 0.2em;
+    border-radius: 6px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  /* Enlace de texto con subrayado grueso */
+  .enlace-fuerte {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+}
+
+/* ================================================================== */
+/* Utilidades                                                          */
+/* ================================================================== */
+
+@utility sin-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Barra de desplazamiento con estilo, para la galería */
+@utility scroll-fino {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-tinta) transparent;
+}
+
+/* ================================================================== */
+/* Microinteracciones                                                  */
+/* ================================================================== */
+
+/* Pulso sutil del CTA principal: cada 6 s, scale 1 → 1.03 */
+@keyframes pulso-cta {
+  0%,
+  88%,
+  100% {
+    transform: scale(1);
+  }
+  94% {
+    transform: scale(1.03);
+  }
+}
+
+.cta-pulso {
+  animation: pulso-cta 6s ease-in-out infinite;
+}
+
+/* Entrada de secciones: fade-up de 12 px con animation-timeline.
+   Sin soporte del navegador = sin animación (contenido siempre visible). */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .fade-up {
+      animation: fade-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 90%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .cta-pulso {
+    animation: none;
+  }
+
+  .fade-up {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ================================================================== */
+/* Galería con scroll-snap (sin JS)                                    */
+/* ================================================================== */
+
+@layer components {
+  .galeria {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .galeria::-webkit-scrollbar {
+    display: none;
+  }
+
+  .galeria > * {
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    flex: 0 0 100%;
+  }
+
+  /* Carrusel de tarjetas: varias visibles a la vez */
+  .carrusel > * {
+    flex: 0 0 86%;
+  }
+
+  @media (min-width: 768px) {
+    .carrusel > * {
+      flex: 0 0 46%;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .carrusel > * {
+      flex: 0 0 31.5%;
+    }
+  }
+
+  /* Tira horizontal: se desplaza en móvil, 4 columnas en desktop */
+  .tira {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+
+  .tira::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tira > li {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  @media (min-width: 768px) {
+    .tira {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+      overflow: visible;
+    }
+  }
+}
+
+/* Puntos indicadores: estado activo siguiendo el scroll (CSS puro) */
+@supports (animation-timeline: scroll()) {
+  .galeria-marco {
+    timeline-scope: --galeria;
+  }
+
+  .galeria {
+    scroll-timeline: --galeria inline;
+  }
+
+  .punto {
+    animation-duration: auto;
+    animation-fill-mode: both;
+    animation-timing-function: linear;
+    animation-timeline: --galeria;
+  }
+}
+
+@keyframes punto-1 {
+  0%,
+  24.9% {
+    background-color: var(--color-tinta);
+    transform: scale(1.35);
+  }
+  25%,
+  100% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+}
+
+@keyframes punto-2 {
+  0%,
+  24.9% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+  25%,
+  49.9% {
+    background-color: var(--color-tinta);
+    transform: scale(1.35);
+  }
+  50%,
+  100% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+}
+
+@keyframes punto-3 {
+  0%,
+  49.9% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+  50%,
+  74.9% {
+    background-color: var(--color-tinta);
+    transform: scale(1.35);
+  }
+  75%,
+  100% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+}
+
+@keyframes punto-4 {
+  0%,
+  74.9% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+  75%,
+  99.9% {
+    background-color: var(--color-tinta);
+    transform: scale(1.35);
+  }
+  100% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+}
+
+@keyframes punto-5 {
+  0%,
+  74.9% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+  75%,
+  100% {
+    background-color: var(--color-tinta);
+    transform: scale(1.35);
+  }
+}
+
+@layer components {
+  /* Área táctil de 44 px sin alterar el tamaño visual del punto. */
+  .punto {
+    position: relative;
+  }
+
+  .punto::after {
+    content: '';
+    position: absolute;
+    inset: -15px;
+  }
+
+  .punto-1 {
+    animation-name: punto-1;
+  }
+  .punto-2 {
+    animation-name: punto-2;
+  }
+  .punto-3 {
+    animation-name: punto-3;
+  }
+  .punto-4 {
+    animation-name: punto-4;
+  }
+  .punto-5 {
+    animation-name: punto-5;
+  }
+}
+
+/* ================================================================== */
+/* Sello circular de garantía                                         */
+/* ================================================================== */
+
+@layer components {
+  .sello {
+    display: grid;
+    place-items: center;
+    border: 2px solid var(--color-tinta);
+    border-radius: 9999px;
+    background-color: var(--color-electrico);
+    box-shadow: var(--shadow-brutal);
+    text-align: center;
+  }
+}
+
+/* ================================================================== */
+/* Utilidades de área segura                                           */
+/* ================================================================== */
+
+@layer components {
+  .area-segura {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}

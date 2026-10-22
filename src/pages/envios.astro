@@ -1,0 +1,87 @@
+---
+/**
+ * Página de envíos. Texto editable: cambia las ciudades, los tiempos y
+ * el costo de envío según tu operación (ver también src/config/tienda.ts).
+ */
+import Legal from '../layouts/Legal.astro';
+import { tienda } from '../config/tienda';
+
+const ciudades = [
+  'Bogotá y municipios cercanos',
+  'Medellín',
+  'Cali',
+  'Barranquilla',
+  'Bucaramanga',
+  'Pereira',
+  'Manizales',
+  'Armenia',
+  'Cartagena',
+  'Santa Marta',
+  'Cúcuta',
+  'Ibagué',
+  'Pasto',
+  'Popayán',
+  'Neiva',
+  'Tunja',
+  'Villavicencio',
+  'Riohacha',
+  'Valledupar',
+  'Montería',
+  'Sincelejo',
+  'Florencia',
+  'Yopal',
+  'Quibdó',
+];
+---
+
+<Legal
+  titulo="Envíos y cobertura"
+  descripcion={`Cómo enviamos tu pedido a toda Colombia. Tiempos de entrega, ciudades con cobertura y seguimiento por WhatsApp. ${tienda.nombreTienda}.`}
+  ruta="/envios/"
+  actualizado="1 de enero de 2026"
+>
+  <h2>1. Envío gratis a todo el país</h2>
+  <p>
+    Todos los pedidos de {tienda.nombreTienda} tienen <strong>envío gratis</strong>, sin monto
+    mínimo y sin costo adicional por el servicio. El valor del envío ya está incluido en el
+    precio que ves en la página.
+  </p>
+
+  <h2>2. Tiempos de entrega</h2>
+  <ul>
+    <li><strong>Despachamos el mismo día</strong> si confirmas tu pedido antes de las 2 p. m. (hora de Colombia).</li>
+    <li>Tiempo estimado de entrega: <strong>{tienda.tiempoEnvio}</strong> después de la confirmación del pago contra entrega.</li>
+    <li>Días hábiles de lunes a viernes. Los envíos a zonas apartadas pueden tardar 1 o 2 días más.</li>
+    <li>Recibirás el número de guía y el transportador por WhatsApp en cuanto el paquete salga.</li>
+  </ul>
+
+  <h2>3. Ciudades con cobertura</h2>
+  <p>Llegamos a más de 50 municipios, entre ellos:</p>
+  <ul>
+    {ciudades.map((ciudad) => <li>{ciudad}</li>)}
+  </ul>
+  <p>
+    ¿No ves tu municipio? Escríbenos por WhatsApp al {tienda.whatsappDisplay} con tu ciudad y
+    el nombre del producto. Confirmamos cobertura en menos de 5 minutos.
+  </p>
+
+  <h2>4. Seguimiento</h2>
+  <p>
+    Apenas tu pedido salga del almacén te escribimos con el número de guía. Si el transportador
+    te contacta para confirmar la dirección, responde con un mensaje: no te cobramos nada
+    adicional.
+  </p>
+
+  <h2>5. Paquetes perdidos, dañados o entregados a otra dirección</h2>
+  <p>
+    Si tu pedido no llega, llega dañado o lo recibes en una dirección equivocada, escríbenos de
+    inmediato por WhatsApp con fotos. Enviamos un nuevo producto sin costo o gestionamos el
+    reembolso completo de tu dinero, según prefieras.
+  </p>
+
+  <h2>6. Paquetes discretos</h2>
+  <p>
+    Tus pedidos llegan en empaque neutro, sin slogans ni precios visibles, para que nadie más en
+    la casa sepa qué compraste.
+  </p>
+</Legal>

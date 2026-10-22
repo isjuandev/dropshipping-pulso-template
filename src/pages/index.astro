@@ -1,0 +1,239 @@
+---
+/**
+ * Landing de producto único.
+ * ------------------------------------------------------------------
+ * Orden de secciones (fijo por diseño):
+ *  1. Barra de anuncio      9. Selector de paquetes
+ *  2. Header                10. Testimonios UGC
+ *  3. Hero                  11. Garantía
+ *  4. Franja de confianza   12. Cómo pedir
+ *  5. Problema y solución   13. FAQ
+ *  6. Beneficios            14. CTA final
+ *  7. Cómo funciona         15. Footer
+ *  8. Comparativa
+ */
+import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+
+import ogImagen from '../assets/og/og-blendgo.png';
+
+import Base from '../layouts/Base.astro';
+import BarraAnuncio from '../components/secciones/BarraAnuncio.astro';
+import Header from '../components/secciones/Header.astro';
+import Hero from '../components/secciones/Hero.astro';
+import FranjaConfianza from '../components/secciones/FranjaConfianza.astro';
+import ProblemaSolucion from '../components/secciones/ProblemaSolucion.astro';
+import Beneficios from '../components/secciones/Beneficios.astro';
+import ComoFunciona from '../components/secciones/ComoFunciona.astro';
+import Comparativa from '../components/secciones/Comparativa.astro';
+import Paquetes from '../components/secciones/Paquetes.astro';
+import Testimonios from '../components/secciones/Testimonios.astro';
+import Garantia from '../components/secciones/Garantia.astro';
+import ComoPedir from '../components/secciones/ComoPedir.astro';
+import Faq from '../components/secciones/Faq.astro';
+import CtaFinal from '../components/secciones/CtaFinal.astro';
+import Footer from '../components/secciones/Footer.astro';
+import FlotanteWhatsApp from '../components/ui/FlotanteWhatsApp.astro';
+import StickyBar from '../components/islas/StickyBar.tsx';
+
+import { tienda } from '../config/tienda';
+import { construirCatalogo } from '../lib/catalogo';
+import { precio } from '../lib/formato';
+
+const [productos, testimonios, faqs] = await Promise.all([
+  getCollection('productos'),
+  getCollection('testimonios'),
+  getCollection('faqs'),
+]);
+
+const producto = productos[0];
+
+if (!producto) {
+  throw new Error('No hay ningún producto en la colección "productos".');
+}
+
+const catalogo = construirCatalogo(producto.data);
+const testimoniosOrdenados = testimonios
+  .slice()
+  .sort((a, b) => b.data.estrellas - a.data.estrellas)
+  .map((t) => t.data);
+const faqsOrdenadas = faqs
+  .slice()
+  .sort((a, b) => a.data.orden - b.data.orden)
+  .map((f) => f.data);
+
+const imagenPrincipal = producto.data.imagenes[0];
+const miniatura = imagenPrincipal
+  ? await getImage({
+      src: imagenPrincipal,
+      width: 96,
+      height: 96,
+      format: 'webp',
+      fit: 'cover',
+    })
+  : undefined;
+
+const titulo = `${producto.data.nombre} · Licuadora portátil recargable USB-C | ${tienda.nombreTienda}`;
+const descripcion = `${producto.data.titulo}. ${producto.data.subtitulo} Precio ${precio(producto.data.precio)} (antes ${precio(producto.data.precioAnterior)}). Envío gratis y pago contra entrega en Colombia.`;
+
+const imagenOg = ogImagen;
+
+const precioValidoHasta = new Date(Date.now() + 1000 * 60 * 60 * 24 * 365).toISOString();
+
+const schemaProducto = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: producto.data.nombre,
+  description: producto.data.descripcion,
+  sku: producto.data.slug,
+  image: [imagenOg.src],
+  brand: { '@type': 'Brand', name: tienda.nombreTienda },
+  color: producto.data.variantes.map((v) => v.nombre).join(', '),
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: producto.data.rating,
+    reviewCount: producto.data.numResenas,
+    bestRating: 5,
+    worstRating: 1,
+  },
+  offers: {
+    '@type': 'Offer',
+    url: new URL('/', tienda.sitio).toString(),
+    priceCurrency: tienda.moneda,
+    price: producto.data.precio,
+    priceValidUntil: precioValidoHasta,
+    availability: 'https://schema.org/InStock',
+    itemCondition: 'https://schema.org/NewCondition',
+    seller: { '@type': 'Organization', name: tienda.nombreTienda },
+    hasMerchantReturnPolicy: {
+      '@type': 'MerchantReturnPolicy',
+      applicableCountry: 'CO',
+      returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+      merchantReturnDays: 5,
+      returnMethod: 'https://schema.org/ReturnByMail',
+      returnFees: 'https://schema.org/FreeReturn',
+    },
+  },
+};
+
+---
+
+<Base
+  titulo={titulo}
+  descripcion={descripcion}
+  ruta="/"
+  imagen={imagenOg.src}
+  tipoOg="product"
+  jsonLd={schemaProducto}
+>
+  <BarraAnuncio />
+  <Header />
+  <main>
+    <Hero producto={producto.data} />
+    <FranjaConfianza />
+    <ProblemaSolucion producto={producto.data} />
+    <Beneficios producto={producto.data} />
+    <ComoFunciona producto={producto.data} />
+    <Comparativa producto={producto.data} />
+    <Paquetes producto={producto.data} />
+    <Testimonios producto={producto.data} testimonios={testimoniosOrdenados} />
+    <Garantia producto={producto.data} />
+    <ComoPedir />
+    <Faq faqs={faqsOrdenadas} />
+    <CtaFinal producto={producto.data} />
+  </main>
+  <Footer />
+
+  <FlotanteWhatsApp producto={producto.data} />
+
+  {
+    miniatura && (
+      <StickyBar
+        client:idle
+        catalogo={catalogo}
+        miniatura={miniatura.src}
+        producto={producto.data.nombre}
+      />
+    )
+  }
+
+  <!-- Catálogo para el script de la página (mismo origen de verdad que las islas) -->
+  <script type="application/json" id="catalogo-producto" set:html={JSON.stringify(catalogo)} is:inline />
+
+  <!--
+    Sincroniza los CTA estáticos con el estado compartido (@preact/signals)
+    y manda los eventos de analítica. Es el único JS de la página fuera de las islas.
+  -->
+  <script>
+    import { estadoPedido, resumenPedido } from '../lib/estado';
+    import { buildWhatsAppUrl, referenciaDe, type OrigenPedido } from '../lib/whatsapp';
+    import { precio } from '../lib/formato';
+    import type { Catalogo } from '../lib/estado';
+
+    const nodo = document.getElementById('catalogo-producto');
+
+    if (nodo?.textContent) {
+      const catalogo = JSON.parse(nodo.textContent) as Catalogo;
+      const estado = estadoPedido(catalogo);
+
+      const sincronizar = (): void => {
+        const resumen = resumenPedido(estado);
+        const unidades =
+          resumen.unidades === 1 ? '1 unidad' : `${resumen.unidades} unidades`;
+
+        document.querySelectorAll<HTMLAnchorElement>('[data-wa]').forEach((enlace) => {
+          const origen = (enlace.dataset.origen ?? 'hero') as OrigenPedido;
+          enlace.href = buildWhatsAppUrl({
+            producto: resumen.producto,
+            variante: resumen.color,
+            cantidad: resumen.unidades,
+            paquete: { unidades: resumen.unidades, precio: resumen.precioTotal },
+            origen,
+            referencia: referenciaDe(origen),
+          });
+        });
+
+        document.querySelectorAll<HTMLElement>('[data-wa-texto]').forEach((elemento) => {
+          const plantilla = elemento.dataset.waPlantilla;
+          if (!plantilla) return;
+          const texto = plantilla
+            .replaceAll('{unidades}', unidades)
+            .replaceAll('{total}', precio(resumen.precioTotal))
+            .replaceAll('{color}', resumen.color);
+          elemento.textContent = texto;
+
+          // El nombre accesible debe contener el texto visible (WCAG 2.5.3).
+          const contenedor = elemento.closest<HTMLAnchorElement>('[data-wa]');
+          if (contenedor && !contenedor.getAttribute('aria-label')) {
+            contenedor.setAttribute('aria-label', `${texto} de ${resumen.producto} por WhatsApp`);
+          }
+        });
+      };
+
+      estado.color.subscribe(sincronizar);
+      estado.unidades.subscribe(sincronizar);
+      sincronizar();
+
+      document.addEventListener('click', (evento) => {
+        const destino = (evento.target as HTMLElement | null)?.closest<HTMLAnchorElement>(
+          '[data-wa]',
+        );
+        if (!destino) return;
+
+        const resumen = resumenPedido(estado);
+        const origen = (destino.dataset.origen ?? 'hero') as OrigenPedido;
+
+        window.dataLayer?.push({
+          event: 'whatsapp_click',
+          producto: resumen.producto,
+          valor: resumen.precioTotal,
+          origen,
+        });
+
+        if (typeof window.fbq === 'function') {
+          window.fbq('track', 'Contact');
+        }
+      });
+    }
+  </script>
+</Base>

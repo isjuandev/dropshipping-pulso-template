@@ -1,0 +1,94 @@
+---
+/**
+ * Testimonios UGC: resumen de puntuación + carrusel de 6 reseñas.
+ * El carrusel usa scroll-snap nativo (sin JS).
+ */
+import { Picture } from 'astro:assets';
+import Estrellas from '../ui/Estrellas.astro';
+import Icono from '../ui/Icono.astro';
+import { numero } from '../../lib/formato';
+import type { Producto, Testimonio } from '../../lib/tipos';
+
+interface Props {
+  producto: Producto;
+  testimonios: Testimonio[];
+}
+
+const { producto, testimonios } = Astro.props;
+const total = producto.numResenas;
+---
+
+<section id="testimonios" class="bg-humo py-14 md:py-20">
+  <div class="contenedor">
+    <header class="mb-8 max-w-2xl">
+      <p class="mb-2 font-titular text-xs uppercase tracking-[0.18em] text-oferta-oscuro md:text-sm">
+        Lo que dicen
+      </p>
+      <h2>{numero(total)} personas ya la tienen</h2>
+    </header>
+
+    <!-- Resumen de puntuación -->
+    <div class="tarjeta mb-6 grid gap-5 p-5 md:grid-cols-[auto_1fr] md:gap-8 md:p-6">
+      <div class="flex flex-col items-center justify-center gap-1 md:border-r-2 md:border-tinta/15 md:pr-8">
+        <span class="tabular font-titular text-5xl leading-none">{producto.rating}</span>
+        <Estrellas valor={producto.rating} tamano={22} />
+        <span class="text-sm text-tinta/70">{numero(total)} reseñas</span>
+      </div>
+
+      <ul class="flex flex-col gap-1.5">
+        {
+          producto.distribucion.map((fila) => (
+            <li class="flex items-center gap-2 text-sm">
+              <span class="tabular w-8 shrink-0 font-semibold">{fila.estrellas} ★</span>
+              <span class="h-2.5 flex-1 overflow-hidden rounded-full bg-tinta/12">
+                <span
+                  class="block h-full rounded-full bg-electrico ring-1 ring-tinta/20"
+                  style={`width: ${fila.porcentaje}%`}
+                />
+              </span>
+              <span class="tabular w-11 shrink-0 text-right text-tinta/70">{fila.porcentaje}%</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Carrusel UGC -->
+    <ul class="carrusel galeria gap-3 md:gap-4">
+      {
+        testimonios.map((testimonio) => (
+          <li class="tarjeta flex flex-col gap-3 p-4 md:p-5">
+            <div class="flex items-center gap-3">
+              <Picture
+                src={testimonio.foto}
+                formats={['webp']}
+                  fallbackFormat="webp"
+                widths={[64, 96]}
+                sizes="64px"
+                alt={`Foto de ${testimonio.nombre}`}
+                loading="lazy"
+                decoding="async"
+                class="size-12 shrink-0 rounded-full border-2 border-tinta object-cover"
+              />
+              <div class="min-w-0">
+                <p class="truncate font-titular text-sm leading-tight">{testimonio.nombre}</p>
+                <p class="flex items-center gap-1 text-[13px] text-tinta/65">
+                  <Icono name="map-pin" size={13} aria-hidden="true" />
+                  {testimonio.ciudad}
+                </p>
+              </div>
+            </div>
+
+            <Estrellas valor={testimonio.estrellas} tamano={16} />
+
+            <p class="text-[15px] leading-snug text-tinta/85">“{testimonio.texto}”</p>
+
+            <span class="mt-auto inline-flex w-fit items-center gap-1.5 rounded-[8px] border-2 border-tinta/15 bg-blanco px-2 py-1 text-[12px] font-semibold text-tinta/70">
+              <Icono name="check-circle" size={13} /> Compra verificada
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

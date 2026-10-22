@@ -1,0 +1,47 @@
+---
+/**
+ * Bloque de precio. El precio actual, el tachado y el ahorro van juntos:
+ * nunca se separa la señal de ahorro del CTA.
+ */
+import { precio } from '../../lib/formato';
+
+interface Props {
+  precioActual: number;
+  precioAnterior: number;
+  /** Tamaño del bloque: `md` para tarjetas, `lg` para el hero. */
+  tamano?: 'md' | 'lg';
+  ahorro?: boolean;
+  /** `true` cuando el bloque vive sobre fondo tinta. */
+  oscuro?: boolean;
+  clase?: string;
+}
+
+const {
+  precioActual,
+  precioAnterior,
+  tamano = 'md',
+  ahorro = true,
+  oscuro = false,
+  clase = '',
+} = Astro.props;
+const ahorroValor = precioAnterior - precioActual;
+---
+
+<div class={`flex flex-wrap items-end gap-x-3 gap-y-1 ${clase}`}>
+  <span
+    class={`tabular font-titular leading-none ${tamano === 'lg' ? 'text-[2rem] md:text-[2.75rem]' : 'text-[2rem]'}`}
+  >
+    {precio(precioActual)}
+  </span>
+
+  <span
+    class={`tabular text-lg line-through decoration-2 ${oscuro ? 'text-blanco/70' : 'text-gris'}`}
+    >{precio(precioAnterior)}</span
+  >
+
+  {
+    ahorro && ahorroValor > 0 && (
+      <span class="insignia bg-exito text-tinta">Ahorras {precio(ahorroValor)}</span>
+    )
+  }
+</div>

@@ -1,0 +1,58 @@
+---
+/**
+ * Preguntas frecuentes con <details>/<summary> nativo (sin JS)
+ * y JSON-LD de tipo FAQPage para los buscadores.
+ */
+import Icono from '../ui/Icono.astro';
+import type { Faq } from '../../lib/tipos';
+
+interface Props {
+  faqs: Faq[];
+}
+
+const { faqs } = Astro.props;
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.pregunta,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.respuesta,
+    },
+  })),
+};
+---
+
+<section id="preguntas" class="bg-blanco py-14 md:py-20">
+  <div class="contenedor">
+    <header class="mb-8 max-w-2xl">
+      <p class="mb-2 font-titular text-xs uppercase tracking-[0.18em] text-oferta-oscuro md:text-sm">
+        Todo claro antes de comprar
+      </p>
+      <h2>Preguntas frecuentes</h2>
+    </header>
+
+    <div class="mx-auto flex max-w-3xl flex-col gap-2.5">
+      {
+        faqs.map((faq) => (
+          <details class="group rounded-brutal border-2 border-tinta bg-blanco open:bg-humo">
+            <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 font-titular text-[15px] leading-snug md:text-base">
+              <span>{faq.pregunta}</span>
+              <span class="grid size-7 shrink-0 place-items-center rounded-full border-2 border-tinta bg-electrico transition-transform group-open:rotate-180">
+                <Icono name="chevron" size={16} strokeWidth={3} />
+              </span>
+            </summary>
+            <div class="border-t-2 border-tinta/12 px-4 py-3 text-[15px] leading-relaxed text-tinta/80 md:text-base">
+              {faq.respuesta}
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />

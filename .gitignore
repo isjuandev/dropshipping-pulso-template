@@ -1,0 +1,22 @@
+# dependencias
+node_modules/
+.pnpm-store/
+
+# build
+dist/
+.astro/
+.output/
+.vercel/
+.netlify/
+.wrangler/
+
+# variables de entorno
+.env
+.env.production
+.env.local
+
+# sistema
+.DS_Store
+*.log
+npm-debug.log*
+pnpm-debug.log*
