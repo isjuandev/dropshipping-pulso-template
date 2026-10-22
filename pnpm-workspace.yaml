@@ -1,0 +1,11 @@
+# Ajustes de pnpm (v10+). Los "build scripts" de estos dos paquetes son
+# obligatorios: instalan los binarios nativos de sharp y ffmpeg.
+allowBuilds:
+  ffmpeg-static: true
+  sharp: true
+minimumReleaseAgeExclude:
+  - '@astrojs/markdown-satteri@0.4.5'
+  - '@astrojs/preact@6.1.1'
+  - '@astrojs/prism@4.1.1'
+  - '@astrojs/telemetry@3.4.1'
+  - astro@7.4.2

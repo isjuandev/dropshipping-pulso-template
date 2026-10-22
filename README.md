@@ -27,12 +27,17 @@ TypeScript estricto (`astro/tsconfigs/strict` + `noUncheckedIndexedAccess`,
 `noUnusedLocals`, `verbatimModuleSyntax`).
 
 ```bash
-npm install
-npm run dev        # http://localhost:4321
-npm run build      # genera dist/
-npm run preview    # sirve dist/
-npm run check      # astro check (TypeScript)
+pnpm install
+pnpm dev        # http://localhost:4321
+pnpm build      # genera dist/
+pnpm preview    # sirve dist/
+pnpm check      # astro check (TypeScript)
 ```
+
+> El proyecto usa **pnpm** como único gestor de paquetes (`packageManager` en
+> `package.json`). Los “build scripts” de `sharp` y `ffmpeg-static` están
+> habilitados en `pnpm-workspace.yaml` porque instalan los binarios nativos que
+> usa el generador de imágenes y el video.
 
 ---
 
@@ -234,14 +239,14 @@ con su póster en `public/video/blendgo-poster.jpg`.
 Si quieres regenerar los recursos de ejemplo (ilustraciones planas + video):
 
 ```bash
-npm run assets
+pnpm assets
 ```
 
 El script `scripts/generar-assets.mjs` dibuja las ilustraciones con SVG, las rasteriza
 con `sharp` y arma el MP4 con `ffmpeg-static`. **No hace falta ejecutarlo** si ya
 traes tus propias fotos.
 
-Las fuentes se copian desde `@fontsource` a `public/fonts/` con `npm run fuentes`
+Las fuentes se copian desde `@fontsource` a `public/fonts/` con `pnpm fuentes`
 (ya se ejecuta automáticamente en `prebuild`): solo se descargan los pesos y subconjuntos
 usados y el titular va precargado.
 
@@ -254,27 +259,24 @@ El build es 100 % estático (`dist/`). Sirve en cualquier hosting.
 ### Vercel
 
 ```bash
-npm i -g vercel
-vercel        # detecta Astro; build: npm run build, output: dist
+pnpm dlx vercel        # detecta Astro; build: pnpm build, output: dist
 ```
 
 ### Netlify
 
 ```bash
-npm i -g netlify-cli
-netlify deploy --prod --dir=dist
+pnpm dlx netlify-cli deploy --prod --dir=dist
 ```
 
-O en la UI: build command `npm run build`, publish directory `dist`.
+O en la UI: build command `pnpm build`, publish directory `dist`.
 
 ### Cloudflare Pages
 
 ```bash
-npm i -g wrangler
-wrangler pages deploy dist
+pnpm dlx wrangler pages deploy dist
 ```
 
-O en la UI: framework “Astro”, build `npm run build`, output `dist`.
+O en la UI: framework “Astro”, build `pnpm build`, output `dist`.
 
 ### Antes de publicar
 
